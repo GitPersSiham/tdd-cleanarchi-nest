@@ -14,11 +14,9 @@ import { User, UserCredentials } from '../domain/models/user';
 import { UserDto, ChangeUserPasswordDto } from '../domain/dto/user-dto';
 import { UsersService } from '../application/users.service';
 import { AuthGuard } from '@nestjs/passport';
-import { DomainExceptionFilter } from './error.filter';
 import { UserPassword } from '../domain/value-objects/userpassword';
 
 @Controller('/api/v1/auth')
-@UseFilters(new DomainExceptionFilter())
 export class AuthenticationController {
   constructor(
     @Inject('UsersService') private readonly usersService: UsersService,
@@ -53,8 +51,8 @@ export class AuthenticationController {
   async registerNewUser(
     @Body(new ValidationPipe({ transform: true })) user: UserDto,
   ): Promise<any> {
-    const newUser = await User.create(user);
-    this.usersService.createUser(newUser);
+    const newUser = User.create(user);
+    await this.usersService.createUser(newUser);
     return newUser.infoWithoutPassword();
   }
 

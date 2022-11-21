@@ -6,9 +6,11 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersService } from './application/users.service';
 
 import { AuthenticationController } from './infrastructure/authentication.controller';
-
+// import { MemoryUsersRepository } from './infrastructure/repositories/memory-users.repository';
+import { IUsersRepository } from './domain/repositories/user.repository';
 import { LocalStrategy } from './infrastructure/passport/local.strategy';
-import { JwtStrategy } from './infrastructure/passport/jwt.straetgy';
+import { JwtStrategy } from './infrastructure/passport/jwt.strategy';
+import { FileUsersRepository } from './infrastructure/repositories/userFile.repository';
 
 @Module({
   imports: [
@@ -26,7 +28,10 @@ import { JwtStrategy } from './infrastructure/passport/jwt.straetgy';
       provide: 'UsersService',
       useClass: UsersService,
     },
-
+    {
+      provide: 'IUsersRepository',
+      useClass: FileUsersRepository,
+    },
     JwtStrategy,
     LocalStrategy,
   ],

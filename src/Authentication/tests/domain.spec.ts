@@ -27,6 +27,18 @@ describe('Authentication', () => {
           'Invalid user password, the password must contains uppercase characters, lowercase characters, numeric characters and special characters, and a length of 8 characters.',
         );
       });
+      it('should extend a user with new data', () => {
+        const user = makeUser()();
+        const newUser = user.extend({
+          firstname: 'Jhonny',
+          lastname: 'Cash',
+        } as User);
+        expect(newUser.firstname).toBe('Jhonny');
+        expect(newUser.lastname).toBe('Cash');
+        expect(newUser.password.value).toBe(user.password.value);
+        expect(newUser.username.value).toBe(user.username.value);
+      });
+
       it('should return a full name if is required', () => {
         const user = makeUser()();
         expect(user.firstname).toEqual('Siham');

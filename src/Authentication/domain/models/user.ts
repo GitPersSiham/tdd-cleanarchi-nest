@@ -43,6 +43,15 @@ export class User {
       lastname: this.lastname,
     };
   }
+  extend(user: User) {
+    return new User(
+      user.id,
+      user.username,
+      user.password,
+      user.firstname,
+      user.lastname,
+    );
+  }
   dataAsDto(): UserDto {
     return {
       id: this.id,
