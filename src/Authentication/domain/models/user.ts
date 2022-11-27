@@ -4,6 +4,9 @@ import { Username } from '../value-objects/username';
 import { UserPassword } from '../value-objects/userpassword';
 
 export class User {
+  json(): User {
+    throw new Error('Method not implemented.');
+  }
   readonly id: string;
   readonly username: Username;
   readonly password: UserPassword;
@@ -43,13 +46,14 @@ export class User {
       lastname: this.lastname,
     };
   }
+
   extend(user: User) {
     return new User(
-      user.id,
-      user.username,
-      user.password,
-      user.firstname,
-      user.lastname,
+      user.id || this.id,
+      user.username || this.username,
+      user.password || this.password,
+      user.firstname || this.firstname,
+      user.lastname || this.lastname,
     );
   }
   dataAsDto(): UserDto {

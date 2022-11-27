@@ -8,6 +8,7 @@ import { UserPassword } from 'src/Authentication/domain/value-objects/userpasswo
 
 import { DomainError } from 'src/Authentication/domain/domain-error';
 import { IUsersRepository } from '../../domain/repositories/user.repository';
+import { NotFoundException } from '@nestjs/common';
 
 export class FileUsersRepository implements IUsersRepository {
   private data: User[];
@@ -61,8 +62,18 @@ export class FileUsersRepository implements IUsersRepository {
     return this.data.map(user => user.infoWithoutPassword());
   }
 
-  getUserByUsername(username: Username): User {
-    return this.data
+  delete(id: string) {
+    const nb = this.data.length;
+    this.data = [...this.data.filter(u => u.id !== id)];
+    if (this.data.length < nb) {
+      return this.data.find(u => u.id);
+    } else {
+      return 'user est deja suprimé';
+    }
+  }
+
+  getUserByUsername(username: Username) {
+    const res = this.data
       .filter(user => user.username.value === username.value)
       .pop();
   }

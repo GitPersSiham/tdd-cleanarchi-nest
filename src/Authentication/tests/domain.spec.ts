@@ -30,13 +30,13 @@ describe('Authentication', () => {
       it('should extend a user with new data', () => {
         const user = makeUser()();
         const newUser = user.extend({
-          firstname: 'Jhonny',
-          lastname: 'Cash',
+          firstname: 'Harry',
+          lastname: 'Smith',
         } as User);
-        expect(newUser.firstname).toBe('Jhonny');
-        expect(newUser.lastname).toBe('Cash');
-        expect(newUser.password.value).toBe(user.password.value);
-        expect(newUser.username.value).toBe(user.username.value);
+        expect(newUser.firstname).toEqual('Harry');
+        expect(newUser.lastname).toEqual('Smith');
+        expect(newUser.password.value).toEqual(user.password.value);
+        expect(newUser.username.value).toEqual(user.username.value);
       });
 
       it('should return a full name if is required', () => {
@@ -50,13 +50,13 @@ describe('Authentication', () => {
         const user = makeUser()();
         expect(user.infoWithoutPassword().password).toBeFalsy();
       });
-      it('should return data as DTO', async () => {
+      it('should return data as DTO', () => {
         const user = makeUser('test&', 'MyPassWord2&')();
-        const userDTO = await (await user).dataAsDto();
-        expect(await userDTO.username).toBe('test&');
-        expect(await userDTO.password).toBe('MyPassWord2&');
-        expect(await userDTO.firstname).toBe('Siham');
-        expect(await userDTO.lastname).toBe('Lahouali');
+        const userDTO = user.dataAsDto();
+        expect(userDTO.username).toEqual('test&');
+        expect(userDTO.password).toEqual('MyPassWord2&');
+        expect(userDTO.firstname).toEqual('Siham');
+        expect(userDTO.lastname).toEqual('Lahouali');
       });
     });
   });
@@ -64,7 +64,7 @@ describe('Authentication', () => {
     it('should create user credentials', async () => {
       const makeUserCredentials = () =>
         UserCredentials.create({
-          username: 'jdoe1',
+          username: 'test&',
           password: 'ThisIsAStrongPassword123*',
         } as UserDto);
       const userCredentials = makeUserCredentials();

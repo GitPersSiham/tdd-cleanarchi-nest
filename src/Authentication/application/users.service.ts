@@ -4,6 +4,7 @@ import { IUsersRepository } from '../domain/repositories/user.repository';
 import { User, UserCredentials } from '../domain/models/user';
 import { DomainError } from '../domain/domain-error';
 import { UserPassword } from '../domain/value-objects/userpassword';
+import { Username } from '../domain/value-objects/username';
 
 @Injectable()
 export class UsersService {
@@ -37,5 +38,14 @@ export class UsersService {
     return {
       accessToken: this.jwtService.sign(payload),
     };
+  }
+  async getUser(id: string) {
+    return await this.usersRepository.getUserById(id);
+  }
+  async getUserByName(username: Username) {
+    return await this.usersRepository.getUserByUsername(username);
+  }
+  async deleteUser(id: string) {
+    return await this.usersRepository.delete(id);
   }
 }

@@ -7,14 +7,19 @@ import {
   Inject,
   UseGuards,
   Req,
-  UseFilters,
   Put,
+  Delete,
+  Param,
+  Res,
+  NotFoundException,
+  HttpStatus,
 } from '@nestjs/common';
 import { User, UserCredentials } from '../domain/models/user';
 import { UserDto, ChangeUserPasswordDto } from '../domain/dto/user-dto';
 import { UsersService } from '../application/users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UserPassword } from '../domain/value-objects/userpassword';
+import { Username } from '../domain/value-objects/username';
 
 @Controller('/api/v1/auth')
 export class AuthenticationController {
@@ -64,7 +69,7 @@ export class AuthenticationController {
 
   @Get('users')
   async getlistUsers(): Promise<User[]> {
-    const users = this.usersService.getUsers();
+    const users = await this.usersService.getUsers();
     return users;
   }
 }
